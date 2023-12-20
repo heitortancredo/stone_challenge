@@ -1,6 +1,7 @@
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
-from starlette import status
+from repositories.stock_quotes import StockQuotesRepository
+from dependencies.database import get_database_session
 
 import schemas
 
@@ -11,15 +12,13 @@ async def root():
     return {"message": "Welcome to Heitor Stone Challenge API"}
 
 @app.get(
-    "/ticker",
-    response_model=schemas.StockQuotes,
-    responses={
-        status.HTTP_404_NOT_FOUND: {"description": "No phone found for received query string"},
-        status.HTTP_422_UNPROCESSABLE_ENTITY: {"description": "Failed to validate received query string"},
-        status.HTTP_503_SERVICE_UNAVAILABLE: {
-            "description": "Database is down or something weird happened with connection"
-        },
-    },
+    "/ticker/{ticker_name}",
 )
-async def get_by_ticker():
-    pass
+async def get_by_ticker(ticker_name: str, session: AsyncSession = Depends(get_database_session)):
+
+    stock_quotes_repository = StockQuotesRepository(session)
+
+    found_stocks = await stock_quotes_repository.get_stock_quotes_by_ticker(ticker_name)
+
+    return found_stocks
+
