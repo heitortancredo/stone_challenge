@@ -1,0 +1,47 @@
+repos:
+-   repo: https://github.com/ambv/black
+    rev: 22.1.0
+    hooks:
+    - id: black
+      language_version: python3.8
+      stages: [commit]
+      args: [--config=pyproject.toml]
+-   repo: https://gitlab.com/pycqa/flake8
+    rev: 3.9.2
+    hooks:
+    - id: flake8
+      stages: [commit]
+-   repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+    - id: isort
+      stages: [commit]
+      files: "\\.(py)$"
+      args: [--settings-path=pyproject.toml]
+-   repo: https://github.com/hadialqattan/pycln
+    rev: v1.1.0
+    hooks:
+    - id: pycln
+      stages: [commit]
+      args: [--config=pyproject.toml]
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.1.0
+    hooks:
+    - id: requirements-txt-fixer
+      stages: [commit]
+-   repo: local
+    hooks:
+    -   id: pytest
+        name: pytest
+        entry: pytest
+        stages: [push]
+        language: system
+        pass_filenames: false
+        always_run: true
+        verbose: true
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v0.931
+    hooks:
+    - id: mypy
+      stages: [commit, push]
+      additional_dependencies: [SQLAlchemy==1.4.31, sqlalchemy2-stubs==0.0.2a19, types-freezegun==1.1.6]
