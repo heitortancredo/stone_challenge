@@ -28,7 +28,7 @@ async def get_stock_quotes(
 ):
     try:
         stock_quotes_repository = StockQuotesRepository(session)
-        found_stocks = await stock_quotes_repository.get_stock_quotes(ticker_name)
+        found_stocks = stock_quotes_repository.get_stock_quotes(ticker_name)
 
         if found_stocks:
             return found_stocks
