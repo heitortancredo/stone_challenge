@@ -1,6 +1,6 @@
 from fastapi import Depends, FastAPI, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import OperationalError
+from sqlalchemy.orm import Session
 from repositories.stock_quotes import StockQuotesRepository
 from dependencies.database import get_database_session
 from starlette import status
@@ -24,7 +24,7 @@ async def root():
 )
 async def get_stock_quotes(
         ticker_name: str,
-        session: AsyncSession = Depends(get_database_session)
+        session: Session = Depends(get_database_session)
 ):
     try:
         stock_quotes_repository = StockQuotesRepository(session)

@@ -1,10 +1,9 @@
 from typing import AsyncGenerator
-
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import Session
 
 from infrastructure.postgresql import session_maker
 
 
-async def get_database_session() -> AsyncGenerator[AsyncSession, None]:
-    async with session_maker() as session:
+def get_database_session() -> Session:
+    with session_maker() as session:
         yield session
