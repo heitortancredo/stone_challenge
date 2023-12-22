@@ -1,7 +1,9 @@
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.exc import OperationalError
 from repositories.stock_quotes import StockQuotesRepository
 from dependencies.database import get_database_session
+from starlette import status
 
 import schemas
 
@@ -13,12 +15,23 @@ async def root():
 
 @app.get(
     "/ticker/{ticker_name}",
+    responses={
+        status.HTTP_404_NOT_FOUND: {"description": "No ticker found for received query string"},
+        status.HTTP_503_SERVICE_UNAVAILABLE: {
+            "description": "Database is down or something weird happened with connection"
+        },
+    },
 )
-async def get_by_ticker(ticker_name: str, session: AsyncSession = Depends(get_database_session)):
+async def get_stock_quotes(
+        ticker_name: str,
+        session: AsyncSession = Depends(get_database_session)
+):
+    try:
+        stock_quotes_repository = StockQuotesRepository(session)
+        found_stocks = await stock_quotes_repository.get_stock_quotes(ticker_name)
 
-    stock_quotes_repository = StockQuotesRepository(session)
-
-    found_stocks = await stock_quotes_repository.get_stock_quotes_by_ticker(ticker_name)
-
-    return found_stocks
-
+        if found_stocks:
+            return found_stocks
+        raise HTTPException(status.HTTP_404_NOT_FOUND)
+    except OperationalError:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE)

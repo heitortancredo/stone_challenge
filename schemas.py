@@ -11,4 +11,8 @@ class StockQuotes(BaseModel):
     data_negocio: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+
+
+class GetStockQuotesQueryString(BaseModel):
+    deal_date: str
