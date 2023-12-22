@@ -24,11 +24,12 @@ async def root():
 )
 async def get_stock_quotes(
         ticker_name: str,
+        deal_date: str | None,
         session: Session = Depends(get_database_session)
 ):
     try:
         stock_quotes_repository = StockQuotesRepository(session)
-        found_stocks = stock_quotes_repository.get_stock_quotes(ticker_name)
+        found_stocks = stock_quotes_repository.get_stock_quotes(ticker_name, deal_date=deal_date)
 
         if found_stocks:
             return found_stocks
