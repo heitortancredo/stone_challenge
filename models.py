@@ -1,4 +1,4 @@
-from sqlalchemy import JSON, Integer, BigInteger, Column, DateTime, Index, String
+from sqlalchemy import Integer, BigInteger, Column, DateTime, Index, String, Float
 from sqlalchemy.dialects import sqlite
 from sqlalchemy.orm import declarative_base
 
@@ -12,7 +12,7 @@ class StockQuotes(BaseModel):
     id = Column(BigIntegerType, primary_key=True, autoincrement=True)
     ticker = Column(String(length=128), nullable=False)
     hora_fechamento = Column(String(length=128), nullable=False)
-    preco_negocio = Column(Integer, nullable=False)
+    preco_negocio = Column(Float, nullable=False)
     quantidade_negociada = Column(Integer, nullable=False)
     data_negocio = Column(DateTime, nullable=True, default=None)
 
