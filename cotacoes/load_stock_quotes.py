@@ -1,9 +1,18 @@
+from sqlalchemy.types import Integer, BigInteger, DateTime, String, Float
 from sqlalchemy.engine.url import URL
 from sqlalchemy import create_engine
 import pandas as pd
 
 
-STOCK_QUOTES_FILES = "sample.csv"
+STOCK_QUOTES_FILES = [
+    # "sample.csv"
+    "07-12-2023_NEGOCIOSAVISTA.csv",
+    "08-12-2023_NEGOCIOSAVISTA.csv",
+    "12-12-2023_NEGOCIOSAVISTA.csv",
+    "13-12-2023_NEGOCIOSAVISTA.csv",
+    "14-12-2023_NEGOCIOSAVISTA.csv",
+    "15-12-2023_NEGOCIOSAVISTA.csv",
+]
 DB_USERNAME = "postgres"
 DB_PASSWORD = "postgres"
 DB_HOSTNAME = "localhost"
@@ -22,13 +31,30 @@ DATABASE_URL = URL.create(
 def main():
     psql_engine = create_engine(DATABASE_URL, pool_recycle=3600, pool_pre_ping=True)
 
-    df_csv = pd.read_csv(STOCK_QUOTES_FILES, delimiter=";", skip_blank_lines=True)
+    for file_csv in STOCK_QUOTES_FILES:
+        print(f"importing {file_csv}...")
 
-    df_filtered = pd.DataFrame(
-        df_csv, columns=["CodigoInstrumento", "HoraFechamento", "DataNegocio", "PrecoNegocio", "QuantidadeNegociada"]
-    )
-    df_filtered.columns = ["ticker", "hora_fechamento", "data_negocio", "preco_negocio", "quantidade_negociada"]
-    df_filtered.to_sql("stock_quotes", psql_engine, if_exists="append", index=True, index_label="id")
+        df_csv = pd.read_csv(file_csv, delimiter=";", decimal=",", skip_blank_lines=True)
+
+        df_filtered = pd.DataFrame(
+            df_csv, columns=["CodigoInstrumento", "HoraFechamento", "DataNegocio", "PrecoNegocio", "QuantidadeNegociada"]
+        )
+        df_filtered.columns = ["ticker", "hora_fechamento", "data_negocio", "preco_negocio", "quantidade_negociada"]
+        df_filtered.to_sql(
+            "stock_quotes",
+            psql_engine,
+            if_exists="append",
+            index=True,
+            index_label="id",
+            dtype={
+                "id": BigInteger,
+                "ticker": String(length=128),
+                "hora_fechamento": String(length=128),
+                "preco_negocio": Float,
+                "quantidade_negociada": Integer,
+                "data_negocio": DateTime
+            }
+        )
 
 
 if __name__ == "__main__":
