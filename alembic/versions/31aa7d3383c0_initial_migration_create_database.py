@@ -24,7 +24,7 @@ def upgrade() -> None:
     sa.Column('id', sa.BigInteger().with_variant(sa.INTEGER(), 'sqlite'), autoincrement=True, nullable=False),
     sa.Column('ticker', sa.String(length=128), nullable=False),
     sa.Column('hora_fechamento', sa.String(length=128), nullable=False),
-    sa.Column('preco_negocio', sa.Integer(), nullable=False),
+    sa.Column('preco_negocio', sa.Float(), nullable=False),
     sa.Column('quantidade_negociada', sa.Integer(), nullable=False),
     sa.Column('data_negocio', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id')
