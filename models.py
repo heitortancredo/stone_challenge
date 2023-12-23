@@ -17,6 +17,8 @@ class StockQuotes(BaseModel):
     data_negocio = Column(DateTime, nullable=True, default=None)
 
     __table_args__ = (
-        Index("ticker", ticker),
-        Index("data_negocio", data_negocio),
+        Index("ticker", ticker, postgresql_using="hash"),
+        Index("data_negocio", data_negocio, postgresql_using="btree"),
+        Index("ticker_data_negocio", ticker, data_negocio)
+
     )
