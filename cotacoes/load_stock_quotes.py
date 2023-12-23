@@ -28,7 +28,7 @@ def main():
         df_csv, columns=["CodigoInstrumento", "HoraFechamento", "DataNegocio", "PrecoNegocio", "QuantidadeNegociada"]
     )
     df_filtered.columns = ["ticker", "hora_fechamento", "data_negocio", "preco_negocio", "quantidade_negociada"]
-    df_filtered.to_sql("stock_quotes", psql_engine, if_exists="replace", index=True, index_label="id")
+    df_filtered.to_sql("stock_quotes", psql_engine, if_exists="append", index=True, index_label="id")
 
 
 if __name__ == "__main__":
