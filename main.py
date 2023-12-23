@@ -9,14 +9,16 @@ import schemas
 
 app = FastAPI(title="heitor-stone-challenge", version="0.0.1", redoc_url=None)
 
+
 @app.get("/")
 async def root():
     return {"message": "Welcome to Heitor Stone Challenge API"}
 
+
 @app.get(
     "/ticker/{ticker_name}",
     responses={
-        status.HTTP_404_NOT_FOUND: {"description": "No ticker found for received query string"},
+        status.HTTP_404_NOT_FOUND: {"description": "No ticker found"},
         status.HTTP_503_SERVICE_UNAVAILABLE: {
             "description": "Database is down or something weird happened with connection"
         },
