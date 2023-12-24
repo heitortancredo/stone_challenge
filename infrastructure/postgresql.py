@@ -14,5 +14,5 @@ DATABASE_URL = URL.create(
     database=DATABASE_NAME,
 )
 
-engine = create_engine(DATABASE_URL, pool_recycle=3600, pool_pre_ping=True)
+engine = create_engine(DATABASE_URL, pool_size=10, pool_recycle=3600, pool_pre_ping=True)
 session_maker = sessionmaker(engine, expire_on_commit=False)
