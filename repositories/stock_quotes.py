@@ -16,7 +16,7 @@ class StockQuotesRepository:
 
     @staticmethod
     def __build_query(ticker: str, start_date: str | None) -> TextClause:
-        where_clause_with_data = text(f"""data_negocio >= '{start_date}' and ticker = '{ticker}'""")
+        where_clause_with_data = text(f"""ticker = '{ticker}' and data_negocio >= '{start_date}'""")
         where_clause = text(f"""ticker = '{ticker}'""")
 
         query = text(f"""
