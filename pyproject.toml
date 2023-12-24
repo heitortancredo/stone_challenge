@@ -37,4 +37,3 @@ addopts = "-ra -q"
 testpaths = [
     "tests",
 ]
-asyncio_mode = "auto"
