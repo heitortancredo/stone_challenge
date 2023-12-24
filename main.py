@@ -1,7 +1,7 @@
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import Session
-from repositories.stock_quotes import StockQuotesRepository
+from respository.stock_quotes import StockQuotesRepository
 from dependencies.database import get_database_session
 from starlette import status
 
