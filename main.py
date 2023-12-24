@@ -26,7 +26,7 @@ async def root():
 )
 async def get_stock_quotes(
         ticker_name: str,
-        deal_date: str | None,
+        deal_date: str | None = None,
         session: Session = Depends(get_database_session)
 ):
     try:
