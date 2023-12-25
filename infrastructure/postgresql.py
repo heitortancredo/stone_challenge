@@ -1,7 +1,6 @@
-from sqlalchemy.engine.url import URL
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
+from sqlalchemy.engine.url import URL
+from sqlalchemy.orm import sessionmaker
 
 from configs import DATABASE_HOSTNAME, DATABASE_NAME, DATABASE_PASSWORD, DATABASE_USERNAME
 

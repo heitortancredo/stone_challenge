@@ -1,11 +1,10 @@
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import Session
-from respository.stock_quotes import StockQuotesRepository
-from dependencies.database import get_database_session
 from starlette import status
 
-import schemas
+from dependencies.database import get_database_session
+from respository.stock_quotes import StockQuotesRepository
 
 app = FastAPI(title="heitor-stone-challenge", version="0.0.1", redoc_url=None)
 
@@ -25,9 +24,7 @@ async def root():
     },
 )
 async def get_stock_quotes(
-        ticker_name: str,
-        deal_date: str | None = None,
-        session: Session = Depends(get_database_session)
+    ticker_name: str, deal_date: str | None = None, session: Session = Depends(get_database_session)
 ):
     try:
         stock_quotes_repository = StockQuotesRepository(session)
