@@ -1,6 +1,18 @@
 
 services:
-  postgres:
+  app:
+    image: heitor_stone_challenge:latest
+    ports:
+      - "80:80"
+    restart: on-failure
+    environment:
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_HOSTNAME: database
+      DATABASE_NAME: postgres
+    depends_on:
+      - database
+  database:
     image: postgres:16.1
     environment:
       - POSTGRES_USER=postgres

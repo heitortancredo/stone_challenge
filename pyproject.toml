@@ -23,7 +23,6 @@ ensure_newline_before_comments = true
 [tool.mypy]
 python_version = 3.11
 plugins = "sqlalchemy.ext.mypy.plugin"
-exclude = ["alembic"]
 
 [[tool.mypy.overrides]]
 module = "precisely.*"

@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, BigInteger, Column, DateTime, Index, String, Float
+from sqlalchemy import BigInteger, Column, DateTime, Float, Index, Integer, String
 from sqlalchemy.dialects import sqlite
 from sqlalchemy.orm import declarative_base
 
@@ -17,8 +17,6 @@ class StockQuotes(BaseModel):
     data_negocio = Column(DateTime, nullable=True, default=None)
 
     __table_args__ = (
-        Index("ticker", ticker, postgresql_using="hash"),
-        Index("data_negocio", data_negocio, postgresql_using="btree"),
-        Index("ticker_data_negocio", ticker, data_negocio)
-
+        Index("ticker", ticker),
+        Index("data_negocio", data_negocio),
     )

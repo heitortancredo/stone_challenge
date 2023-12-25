@@ -1,9 +1,8 @@
-import asyncio
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config, pool
 
-from alembic import context
+from alembic import context  # type: ignore
 from infrastructure.postgresql import DATABASE_URL
 from models import *  # noqa
 from models import BaseModel

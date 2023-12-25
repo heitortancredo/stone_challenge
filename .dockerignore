@@ -1,0 +1,13 @@
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+venv/
+.gitignore
+.git/
+docker/
+Dockerfile
+*.sh
+docker-compose*.yml
+tests/
+cotacoes/
+docker-data
