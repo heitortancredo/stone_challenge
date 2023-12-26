@@ -1,6 +1,7 @@
 
 services:
   app:
+    build: .
     image: heitor_stone_challenge:latest
     ports:
       - "80:80"
