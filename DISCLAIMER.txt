@@ -1,0 +1,13 @@
+DISCPLAIMER:
+
+  - Dentro do tipo de conteudo dos arquivos CSV e a forma como iria ser utilizado escolhei usar "single table";
+    * Por ser uma tabela relativamente grande e os tipos de operações/agregações necessárias para atingir os requisitos,
+      pensei que os JOINs iriam ter um custo elevado prejudicando a performance então optei por utilizar CTE para cada uma das agregações fazendo um JOIN apenas
+      nos resultados de cada uma delas;
+    * Talvez a escolha de um NoSQL fosse mais adequada, porém, acredito que o FastAPI e o SQLAlchemy não trabalham muito bem com ele além de eu nunca ter utilizado desta forma;
+
+  - Os testes eu dei preferência por cobrir 100% a camada das regras de negócio (repository), que para o desafio seja o mais importante 
+    porém deixei alguns stubs dos tests da API propriamente dita;
+  - Os indices deixei todos como BTREE por não ter certeza que outros tipos de indices iriam trazer algum resultado siginificante (não fiz experimentos);
+  - Por se tratar de um desafio sem intenções de expandir não criei interfaces para a camada de infraestrutura (database) pois julguei ser um "over engineering" para a ocasião;
+
