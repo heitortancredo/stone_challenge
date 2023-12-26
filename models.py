@@ -2,12 +2,14 @@ from sqlalchemy import BigInteger, Column, DateTime, Float, Index, Integer, Stri
 from sqlalchemy.dialects import sqlite
 from sqlalchemy.orm import declarative_base
 
+from configs import DATABASE_TABLE
+
 BaseModel = declarative_base()
 BigIntegerType = BigInteger().with_variant(sqlite.INTEGER, "sqlite")
 
 
 class StockQuotes(BaseModel):
-    __tablename__ = "stock_quotes"
+    __tablename__ = DATABASE_TABLE
 
     id = Column(BigIntegerType, primary_key=True, autoincrement=True)
     ticker = Column(String(length=128), nullable=False)
