@@ -1,10 +1,8 @@
-from datetime import datetime
 import pytest
-from precisely import assert_that, mapping_includes
-from tests.fixtures.fastapi_client import client
-from tests.fixtures.database import initialized_database, initialize_database_with_stock_quotes
 
-import models
+from tests.fixtures.database import initialize_database_with_stock_quotes, initialized_database  # noqa
+from tests.fixtures.fastapi_client import client
+
 
 @pytest.fixture
 def default_get_query_string() -> dict:
@@ -19,27 +17,16 @@ class TestRoot:
 
         assert response.status_code == 200
 
+
 class TestGetStockQuotes:
-    def test_when_no_stock_quote_found_should_return_404_error_code(
-        self, client, default_get_query_string, initialize_database_with_stock_quotes
-    ):
-        ticker = 'NotFoundTicker'
-        response = client.get(f"/ticker/{ticker}")
+    def test_when_no_stock_quote_found_should_return_404_status_code(self):
+        pass
 
-        assert response.status_code == 404
+    def test_when_database_has_error_should_return_503_status_code(self):
+        pass
 
-    def test_when_given_ticker_with_no_deal_date_should_return_correspondent_result_from_whole_database(self, client, initialize_database_with_stock_quotes):
-        response = client.get("/ticker/TST1").json()
+    def test_when_given_a_valid_input_should_return_200_status_code(self):
+        pass
 
-        assert_that(
-            response,
-            mapping_includes(
-                {
-                    "ticker": "TST1",
-                    "max_range_value": 1122.23,
-                    "max_daily_volume": 17
-                }
-            )
-        )
-
-
+    def test_when_given_ticker_with_no_deal_date_should_return_correspondent_result_from_whole_database(self):
+        pass

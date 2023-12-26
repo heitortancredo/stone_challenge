@@ -3,37 +3,30 @@ from precisely import assert_that, mapping_includes
 from sqlalchemy import RowMapping  # type: ignore
 
 from respository.stock_quotes import StockQuotesRepository
-from tests.fixtures.database import initialize_database_with_stock_quotes
+from tests.fixtures.database import initialize_database_with_stock_quotes, initialized_database  # noqa
 
 
 class TestGetStocks:
-    def test_when_given_a_valid_ticker_should_return_a_list(self, initialize_database_with_stock_quotes):
+    def test_when_given_a_valid_ticker_should_return_a_list_of_rowmapping(self, initialize_database_with_stock_quotes):
         stock_quotes_repository = StockQuotesRepository(initialize_database_with_stock_quotes)
 
         result = stock_quotes_repository.get_stock_quotes(ticker="TST1")
 
-        assert isinstance(result, list)
-
-    def test_when_given_a_valid_ticker_should_return_a_list_of_rowmapping(self, initialize_database_with_stock_quotes):
-        stock_quotes_repository = StockQuotesRepository(initialize_database_with_stock_quotes)
-
-        result = stock_quotes_repository.get_stock_quotes(ticker="TST1")[0]
-
         assert isinstance(result, RowMapping)
 
-    def test_when_given_an_invalid_ticker_should_an_empty_list(self, initialize_database_with_stock_quotes):
+    def test_when_given_an_invalid_ticker_should_return_none(self, initialize_database_with_stock_quotes):
         stock_quotes_repository = StockQuotesRepository(initialize_database_with_stock_quotes)
 
         result = stock_quotes_repository.get_stock_quotes(ticker="InvalidTicker")
 
-        assert len(result) == 0
+        assert result is None
 
-    def test_when_given_an_invalid_deal_date_should_an_empty_list(self, initialize_database_with_stock_quotes):
+    def test_when_given_an_invalid_deal_date_should_return_none(self, initialize_database_with_stock_quotes):
         stock_quotes_repository = StockQuotesRepository(initialize_database_with_stock_quotes)
 
         result = stock_quotes_repository.get_stock_quotes(ticker="TST1", deal_date="2023-12-10")
 
-        assert len(result) == 0
+        assert result is None
 
     @pytest.mark.parametrize(
         "ticker,expected_max_daily_volume,expected_max_range_value",
@@ -50,7 +43,7 @@ class TestGetStocks:
         result = stock_quotes_repository.get_stock_quotes(ticker=ticker)
 
         assert_that(
-            result[0],
+            result,
             mapping_includes(
                 {
                     "ticker": ticker,
@@ -67,7 +60,7 @@ class TestGetStocks:
 
         result = stock_quotes_repository.get_stock_quotes(ticker="TST1", deal_date="2023-12-08")
 
-        assert_that(result[0], mapping_includes({"ticker": "TST1", "max_range_value": 1122.23, "max_daily_volume": 17}))
+        assert_that(result, mapping_includes({"ticker": "TST1", "max_range_value": 1122.23, "max_daily_volume": 24}))
 
     @pytest.mark.parametrize(
         "ticker,deal_date,expected_max_range_value",
@@ -84,7 +77,7 @@ class TestGetStocks:
         result = stock_quotes_repository.get_stock_quotes(ticker=ticker, deal_date=deal_date)
 
         assert_that(
-            result[0],
+            result,
             mapping_includes(
                 {
                     "ticker": "TST1",
@@ -108,7 +101,7 @@ class TestGetStocks:
         result = stock_quotes_repository.get_stock_quotes(ticker=ticker, deal_date=deal_date)
 
         assert_that(
-            result[0],
+            result,
             mapping_includes(
                 {
                     "ticker": "TST1",

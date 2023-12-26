@@ -1,5 +1,3 @@
-from typing import Sequence
-
 from sqlalchemy import RowMapping, TextClause  # type: ignore
 from sqlalchemy.orm import Session
 from sqlalchemy.sql import text
@@ -9,10 +7,10 @@ class StockQuotesRepository:
     def __init__(self, database: Session):
         self.__database = database
 
-    def get_stock_quotes(self, ticker: str, deal_date: str | None = None) -> Sequence[RowMapping]:
+    def get_stock_quotes(self, ticker: str, deal_date: str | None = None) -> RowMapping:
         query = self.__build_query(ticker, deal_date)
 
-        return self.__database.execute(query).mappings().all()
+        return self.__database.execute(query).mappings().first()
 
     @staticmethod
     def __build_query(ticker: str, start_date: str | None) -> TextClause:
