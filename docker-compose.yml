@@ -10,6 +10,7 @@ services:
       DATABASE_PASSWORD: postgres
       DATABASE_HOSTNAME: database
       DATABASE_NAME: postgres
+      DATABASE_TABLE: stock_quotes
     depends_on:
       - database
   database:
