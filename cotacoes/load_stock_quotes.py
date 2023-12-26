@@ -4,6 +4,8 @@ from sqlalchemy.engine.url import URL
 from sqlalchemy.orm import Session
 from sqlalchemy.types import DateTime, Float, Integer, String
 
+from configs import DATABASE_HOSTNAME, DATABASE_NAME, DATABASE_PASSWORD, DATABASE_USERNAME
+
 STOCK_QUOTES_FILES = [
     # "sample.csv"
     "07-12-2023_NEGOCIOSAVISTA.csv",
@@ -13,18 +15,14 @@ STOCK_QUOTES_FILES = [
     "14-12-2023_NEGOCIOSAVISTA.csv",
     "15-12-2023_NEGOCIOSAVISTA.csv",
 ]
-DB_USERNAME = "postgres"
-DB_PASSWORD = "postgres"
-DB_HOSTNAME = "localhost"
-DB_NAME = "postgres"
 
 DATABASE_URL = URL.create(
     "postgresql+psycopg2",
-    username=DB_USERNAME,
-    password=DB_PASSWORD,
-    host=DB_HOSTNAME,
+    username=DATABASE_USERNAME,
+    password=DATABASE_PASSWORD,
+    host=DATABASE_HOSTNAME,
     port=5432,
-    database=DB_NAME,
+    database=DATABASE_NAME,
 )
 
 
